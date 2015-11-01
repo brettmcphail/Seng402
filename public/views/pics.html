@@ -1,0 +1,119 @@
+<div ng-init="">
+
+    <div ng-if="outfits[0]" ng-init="getOutfit(outfits[0].name)" ng-cloak>
+
+        <div>
+            <a class="btn button" ng-click="newOutfit()">New Outfit</a>
+            <a class="btn button" ng-click="saveOutfit(selectedOutfitName, selectedOutfit, false)">Save {{selectedOutfitName}}</a>
+            <a class="btn button" ng-click="saveOutfit(newOutfitName, selectedOutfit, true)">Save As...</a>
+            <a class="btn button" ng-click="deleteOutfit(selectedOutfitName)">Delete {{selectedOutfitName}}</a>
+        </div>
+
+        <div class="toggle-btn-grp cssonly" >
+            <div ng-repeat="outfit in outfits" ng-click="getOutfit(outfit.name)">
+                <input type="radio" name="outfit" ng-if="outfit.name === selectedOutfitName" checked/>
+                <input type="radio" name="outfit" ng-if="outfit.name !== selectedOutfitName"/>
+                <label class="toggle-btn">{{outfit.name}}</label>
+            </div>
+        </div>
+
+        <div style="display: inline-block">
+
+            <div style="overflow: hidden; position: relative; width: 160px; height: 160px; display: inline-block; border: 1px solid black;">
+                <img class="avatar" ng-repeat="(slot, item) in selectedOutfit"
+                     ng-style="{
+                        'z-index': imageOrder.indexOf(slot),
+                        'position': 'absolute',
+                        'margin-top': '0',
+                        'margin-left': '-160px',
+                        'width': '480px',
+                        'height': '640px'
+                    }"
+                     ng-src="{{item !== null ? '/images/full/' + slot + '/' + item + '.png' : '/images/full/None.png'}}"/>
+            </div>
+
+            <div>
+                <a onclick="var layers = document.getElementsByClassName('avatar');
+                            for(var i = 0; i < layers.length; i++) {
+                                var marTop = layers[i].style['margin-top'];
+                                if (marTop === '0px') {
+                                    layers[i].style['margin-top'] = '-160px';
+                                } else if (marTop === '-160px') {
+                                    layers[i].style['margin-top'] = '-480px';
+                                } else if (marTop === '-480px') {
+                                    layers[i].style['margin-top'] = '-320px';
+                                } else {
+                                    layers[i].style['margin-top'] = '0px';
+                                }
+                            }">
+                    <img class="btn button" style="width: 80px;" ng-src="/images/left.png"/>
+                </a>
+                <a onclick="var layers = document.getElementsByClassName('avatar');
+                            for(var i = 0; i < layers.length; i++) {
+                                var marTop = layers[i].style['margin-top'];
+                                if (marTop === '0px') {
+                                    layers[i].style['margin-top'] = '-320px';
+                                } else if (marTop === '-320px') {
+                                    layers[i].style['margin-top'] = '-480px';
+                                } else if (marTop === '-480px') {
+                                    layers[i].style['margin-top'] = '-160px';
+                                } else {
+                                    layers[i].style['margin-top'] = '0px';
+                                }
+                            }">
+                    <img class="btn button" style="width: 80px;" ng-src="/images/right.png"/>
+                </a>
+            </div>
+        </div>
+
+        <div style="display: inline-block; vertical-align: top; margin-left: 1em">
+
+            <select ng-model="selectedSlot">
+                <option value="" selected>Select Slot</option>
+                <option ng-repeat="(slot, items) in available" value="{{slot}}" ng-if="items[0]">{{slot}} ({{items.length}})</option>
+                <option ng-repeat="(slot, items) in available" value="{{slot}}" ng-if="!items[0]" disabled>{{slot}} ({{items.length}})</option>
+            </select>
+
+            <div class="toggle-btn-grp cssonly" ng-cloak>
+
+                <div style="width: 80px" ng-if="selectedSlot && selectedSlot !== 'Body'" ng-click="selectedOutfit[selectedSlot] = null">
+                    <input type="radio" name="avail" ng-if="selectedOutfit[selectedSlot] === null" checked/>
+                    <input type="radio" name="avail" ng-if="selectedOutfit[selectedSlot] !== null"/>
+                    <label style="width: 80px; height:80px" class="toggle-btn">
+                        <div style="overflow: hidden; position: relative; width: 64px; height: 64px; display: inline-block;">
+                            <img ng-style="{
+                                    'position': 'absolute',
+                                    'margin-top': '0',
+                                    'margin-left': '-27px',
+                                    'width': '172px',
+                                    'height': '256px'
+                                }"
+                                 ng-src="/images/full/None.png"/>
+                        </div>
+                    </label>
+                </div>
+
+                <div style="width: 80px" ng-repeat="item in available[selectedSlot]" ng-click="selectedOutfit[selectedSlot] = item.name" title="{{item.name}}">
+                    <input type="radio" name="avail" ng-if="selectedOutfit[selectedSlot] === item.name" checked/>
+                    <input type="radio" name="avail" ng-if="selectedOutfit[selectedSlot] !== item.name"/>
+                    <label style="width: 80px; height:80px" class="toggle-btn">
+                        <div style="overflow: hidden; position: relative; width: 64px; height: 64px; display: inline-block;">
+                            <img ng-style="{
+                                    'position': 'absolute',
+                                    'margin-top': '0',
+                                    'margin-left': '-27px',
+                                    'width': '172px',
+                                    'height': '256px'
+                                }"
+                                 ng-src="/images/full/{{item.slot}}/{{item.name}}.png"/>
+                        </div>
+                    </label>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

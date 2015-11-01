@@ -1,0 +1,44 @@
+<div ng-init="">
+
+    <div ng-show="!(barReady && playerReady)" ng-cloak>
+        <h1>EXERCISES</h1>
+
+        <table ng-show="!(barReady && playerReady)" class="table grid">
+            <td ng-repeat="video in videos">
+                <p style="text-align: center">{{video.name}}</p>
+                <p style="text-align: center">
+                    <a ng-click="loadVid(video)" style="width: 12em; height: 10em;">
+                        <img ng-style="{'border': video.finished ? 'solid 5px green' : ' solid 5px gray'}" ng-src="http://img.youtube.com/vi/{{video.id}}/hqdefault.jpg" width="100%"/>
+                    </a>
+                    <div style="border: 1px black solid; height: 21px">
+                        <div style="margin-left: 1px">
+                            <div ng-if="video.progress" ng-repeat="chunk in video.progress track by $index"
+                                 class="prog-chunk"
+                                 ng-style="{'background-color': chunk == 0 ? 'azure' : 'green', 'width': (100/video.progress.length).toString()+'%'}"></div>
+                            <div ng-if="!video.progress" style="background-color: azure; width: 100%; height: 19px"></div>
+                        </div>
+                    </div>
+                </p>
+            </td>
+        </table>
+
+    </div>
+
+    <div ng-show="barReady && playerReady" ng-cloak>
+        <h1>{{currentVid.name}}</h1>
+        <button ng-click="returnToListView()">&lt; Back</button>
+        <div class="prog-bar">
+            <div style="margin-left: 1px">
+                <div ng-repeat="chunk in currentVid.progress track by $index"
+                     class="prog-chunk"
+                     ng-style="{'background-color': chunk == 0 ? 'azure' : 'green', 'width': (100/duration).toString()+'%' }"></div>
+            </div>
+        </div>
+        <div id="player"></div>
+        <p ng-show="currentVid.finished" ng-cloak>FINISHED</p>
+    </div>
+
+
+    <a class="btn button" ng-click="resetProgress()" ng-cloak>Reset Progress</a>
+
+</div>
