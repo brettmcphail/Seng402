@@ -9,8 +9,7 @@
     <table style="width: 100%;">
         <td style="width: 49%; border-right:1px solid black; vertical-align: top">
             <h1>SHOP</h1>
-
-            <table class="grid" style="width: 100%; height:100%">
+            <table style="width: 100%; height:100%">
                 <td class="btn button" title="{{item.name}}"
                     style="border: solid 1px black; width: 100px; height: 120px; text-align:center; margin: 5px; overflow: hidden;"
                     ng-repeat="item in shopItems"
@@ -42,7 +41,7 @@
             <h1>OWNED</h1>
             <table style="width: 100%;">
                 <td class="btn button" title="{{item.name}}"
-                    style="width: 100px; height: 120px; text-align:center; margin: 5px; overflow: hidden;"
+                    style="width: 100px; height: 120px; text-align:center; margin: 5px; overflow: hidden; cursor: default"
                     ng-repeat="item in available[selectedSlot]"
                     ng-if="selectedSlot !== 'All'">
 
@@ -61,7 +60,7 @@
                 </td>
 
                 <td class="btn button" title="{{item.name}}"
-                    style="width: 100px; height: 120px; text-align:center; margin: 5px; overflow: hidden;"
+                    style="width: 100px; height: 120px; text-align:center; margin: 5px; overflow: hidden; cursor: default"
                     ng-repeat="item in shopItems"
                     ng-if="selectedSlot === 'All' && itemOwned(item)">
 

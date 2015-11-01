@@ -18,7 +18,7 @@
 
 </head>
 
-<body style="padding-top: 10px" class="container" ng-controller="listCtrl" ng-init="init();">
+<body style="padding-top: 10px; text-align: center" class="container" ng-controller="listCtrl" ng-init="init();">
 
     <div ng-if="!user && pageReady" ng-cloak>
         <!--<p>LOGIN PLZ</p>-->
@@ -34,13 +34,14 @@
     </div>
 
     <div ng-if="user && pageReady" ng-cloak>
-        Welcome, {{user}}
+        <p style="display: inline">Welcome, {{user}}</p>
         <a ng-click="returnToListView(); beforeLeaving()" class="btn" href="/#/videos">Exercises</a>
         <a ng-click="resetPlayer(); beforeLeaving()" class="btn" href="/#/pics">Avatar</a>
         <a ng-click="resetPlayer(); beforeLeaving()" class="btn" href="/#/shop">Shop</a>
         |
         <a class="btn" ng-click="beforeLeaving()" href="/logout">Log out</a>
-        <h4 ng-show="scoreReady" ng-cloak><img ng-src="/images/coin.jpg" style="width: 20px;"/> {{score + scoreIncrease}}</h4>
+        <h4 style="display:inline;" ng-show="scoreReady" ng-cloak><img ng-src="/images/coin.jpg" style="width: 20px;"/> {{score + scoreIncrease}}</h4>
+
         <!--<button ng-click="increaseScore(-50)">-50</button>-->
         <ng-view></ng-view>
 
@@ -51,7 +52,7 @@
             var animate = window.setInterval(function() {
                 frame = [1,2,1,0][index];
                 for(var i = 0; i < layers.length; i++) {
-                    layers[i].style['margin-left'] = (-160 * frame).toString() + 'px';
+                    layers[i].style['margin-left'] = (-80 - 160 * frame).toString() + 'px';
                 }
                 index = (index + 1) % 4;
             }, 200);
