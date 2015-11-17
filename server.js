@@ -7,6 +7,20 @@ var server = express();
 var mysql = require('mysql');
 server.use(express.static(__dirname + '/public'));
 
+//~~~~~~~~~~DB CONFIG~~~~~~~~~~~//
+
+var connection = mysql.createConnection({
+    host     : 'localhost',
+    user     : 'root',
+    password : '',
+    database : 'seng402'
+});
+
+//~~~~~~~~~~~~~SERVER~~~~~~~~~~~~~~//
+
+server.listen(3000, function () {
+    console.log('listening on port 3000');
+});
 
 //~~~~~~~~~~LOGIN RELATED STUFF~~~~~~~~~~~//
 
@@ -92,14 +106,6 @@ server.get('/user', auth, function(req, res) {
 //~~~~~~~~~~~~~~~~~~~~~//
 
 
-var connection = mysql.createConnection({
-    host     : 'localhost',
-    user     : 'root',
-    password : '',
-    database : 'test1'
-});
-
-
 connection.connect(function(err) {
     if (err) {
         console.error(err);
@@ -112,10 +118,6 @@ server.get('/videos', auth, function(req, res) {
     var args = req.user.id;
     queryDB(query, args, res);
 });
-
-
-//-----------------
-
 
 server.get('/myitems', auth, function(req, res) {
     var query = 'select name, slot from item, useritem where user=? and item=name';
@@ -183,9 +185,6 @@ server.post('/myitems', auth, function(req, res) {
     queryDB(query, args, res);
 });
 
-//-----------------
-
-
 server.get('/items', auth, function(req, res) {
     var query = 'select name, slot from item';
     var args = req.user.id;
@@ -231,15 +230,6 @@ var queryDB = function(query, args, res) {
     );
 };
 
-server.get('/unloadtest/:message', auth, function(req,res) {
-    console.log(req.params.message);
-    console.log(req.user.id);
-});
-
 server.use(function(req, res) {
     res.redirect('/');
-});
-
-server.listen(3000, function () {
-    console.log('listening on port 3000');
 });
