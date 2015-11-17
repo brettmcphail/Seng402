@@ -3,7 +3,8 @@
     <div ng-show="!(barReady && playerReady)" ng-cloak>
         <h1>EXERCISES</h1>
 
-        <table ng-show="!(barReady && playerReady)" class="table grid">
+        <table ng-show="!(barReady && playerReady)" class="table">
+            <tr class="grid">
             <td ng-repeat="video in videos">
                 <p style="text-align: center">{{video.name}}</p>
                 <p style="text-align: center">
@@ -20,14 +21,15 @@
                     </div>
                 </p>
             </td>
+            </tr>
         </table>
 
     </div>
 
     <div ng-show="barReady && playerReady" ng-cloak>
-        <h1>{{currentVid.name}}</h1>
-        <button ng-click="returnToListView()">&lt; Back</button>
-        <div class="prog-bar">
+        <h1 style="display: inline">{{currentVid.name}}</h1>
+        <div style="display: inline"><a class="button btn" ng-click="returnToListView()">&lt; Back</a></div>
+        <div style="margin: auto" class="prog-bar">
             <div style="margin-left: 1px">
                 <div ng-repeat="chunk in currentVid.progress track by $index"
                      class="prog-chunk"

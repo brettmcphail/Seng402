@@ -9,10 +9,10 @@
             <a class="btn button" ng-click="deleteOutfit(selectedOutfitName)">Delete {{selectedOutfitName}}</a>
         </div>
 
-        <div class="toggle-btn-grp cssonly" >
+        <div class="toggle-btn-grp cssonly" style="horiz-align: center">
             <div ng-repeat="outfit in outfits" ng-click="getOutfit(outfit.name)">
-                <input type="radio" name="outfit" ng-if="outfit.name === selectedOutfitName" checked/>
-                <input type="radio" name="outfit" ng-if="outfit.name !== selectedOutfitName"/>
+                <input class="toggle-btn" type="radio" name="outfit" ng-if="outfit.name === selectedOutfitName" checked/>
+                <input class="toggle-btn" type="radio" name="outfit" ng-if="outfit.name !== selectedOutfitName"/>
                 <label class="toggle-btn">{{outfit.name}}</label>
             </div>
         </div>
@@ -25,7 +25,7 @@
                         'z-index': imageOrder.indexOf(slot),
                         'position': 'absolute',
                         'margin-top': '0',
-                        'margin-left': '-160px',
+                        'margin-left': '-320px',
                         'width': '480px',
                         'height': '640px'
                     }"
@@ -66,7 +66,7 @@
             </div>
         </div>
 
-        <div style="display: inline-block; vertical-align: top; margin-left: 1em">
+        <div style="display: block; vertical-align: top; margin-left: 1em">
 
             <select ng-model="selectedSlot">
                 <option value="" selected>Select Slot</option>
@@ -74,13 +74,13 @@
                 <option ng-repeat="(slot, items) in available" value="{{slot}}" ng-if="!items[0]" disabled>{{slot}} ({{items.length}})</option>
             </select>
 
-            <div class="toggle-btn-grp cssonly" ng-cloak>
+            <div class="toggle-btn-grp cssonly small" ng-cloak>
 
-                <div style="width: 80px" ng-if="selectedSlot && selectedSlot !== 'Body'" ng-click="selectedOutfit[selectedSlot] = null">
+                <div ng-if="selectedSlot && selectedSlot !== 'Body'" ng-click="selectedOutfit[selectedSlot] = null">
                     <input type="radio" name="avail" ng-if="selectedOutfit[selectedSlot] === null" checked/>
                     <input type="radio" name="avail" ng-if="selectedOutfit[selectedSlot] !== null"/>
                     <label style="width: 80px; height:80px" class="toggle-btn">
-                        <div style="overflow: hidden; position: relative; width: 64px; height: 64px; display: inline-block;">
+                        <div style="overflow: hidden; position: relative; width: 64px; height: 64px; display: inline-block; margin-left: -32px">
                             <img ng-style="{
                                     'position': 'absolute',
                                     'margin-top': '0',
@@ -97,7 +97,7 @@
                     <input type="radio" name="avail" ng-if="selectedOutfit[selectedSlot] === item.name" checked/>
                     <input type="radio" name="avail" ng-if="selectedOutfit[selectedSlot] !== item.name"/>
                     <label style="width: 80px; height:80px" class="toggle-btn">
-                        <div style="overflow: hidden; position: relative; width: 64px; height: 64px; display: inline-block;">
+                        <div style="overflow: hidden; position: relative; width: 64px; height: 64px; display: inline-block; margin-left: -32px">
                             <img ng-style="{
                                     'position': 'absolute',
                                     'margin-top': '0',

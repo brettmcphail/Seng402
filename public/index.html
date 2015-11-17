@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="styles.css">
-
     <script src="bower_components/angular/angular.min.js"></script>
     <script src="bower_components/angular-route/angular-route.min.js"></script>
     <script src="bower_components/angular-strap/dist/angular-strap.min.js"></script>
@@ -18,14 +17,15 @@
 
 </head>
 
-<body style="padding-top: 10px" class="container" ng-controller="listCtrl" ng-init="init();">
+<body style="padding-top: 10px; text-align: center" class="container" ng-controller="listCtrl" ng-init="init();">
 
+    <div style="background-color: white; padding-top: 20px; padding-bottom: 20px">
     <div ng-if="!user && pageReady" ng-cloak>
-        <!--<p>LOGIN PLZ</p>-->
+        <p>Enter your username and password</p>
         <form novalidate class="simple-form">
             <input type="text" ng-model="username" placeholder="Username"/>
             <input type="password" ng-model="password" placeholder="Password"/>
-            <button ng-click="login(username, password)">Log In</button>
+            <a class="button btn" ng-click="login(username, password)">Log In</a>
         </form>
         <br>
         <ul class="list-unstyled" ng-repeat="error in loginErrors" ng-cloak>
@@ -34,13 +34,14 @@
     </div>
 
     <div ng-if="user && pageReady" ng-cloak>
-        Welcome, {{user}}
+        <p style="display: inline">Welcome, {{user}}</p>
         <a ng-click="returnToListView(); beforeLeaving()" class="btn" href="/#/videos">Exercises</a>
         <a ng-click="resetPlayer(); beforeLeaving()" class="btn" href="/#/pics">Avatar</a>
         <a ng-click="resetPlayer(); beforeLeaving()" class="btn" href="/#/shop">Shop</a>
         |
         <a class="btn" ng-click="beforeLeaving()" href="/logout">Log out</a>
-        <h4 ng-show="scoreReady" ng-cloak><img ng-src="/images/coin.jpg" style="width: 20px;"/> {{score + scoreIncrease}}</h4>
+        <h4 style="display:inline;" ng-show="scoreReady" ng-cloak><img ng-src="/images/coin.jpg" style="width: 20px;"/> {{score + scoreIncrease}}</h4>
+
         <!--<button ng-click="increaseScore(-50)">-50</button>-->
         <ng-view></ng-view>
 
@@ -51,13 +52,13 @@
             var animate = window.setInterval(function() {
                 frame = [1,2,1,0][index];
                 for(var i = 0; i < layers.length; i++) {
-                    layers[i].style['margin-left'] = (-160 * frame).toString() + 'px';
+                    layers[i].style['margin-left'] = (-80 - 160 * frame).toString() + 'px';
                 }
                 index = (index + 1) % 4;
             }, 200);
         </script>
     </div>
-
+    </div>
 </body>
 </html>
 
