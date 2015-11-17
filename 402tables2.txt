@@ -1,0 +1,253 @@
+drop table if exists uservideo;
+drop table if exists outfit;
+drop table if exists useritem;
+drop table if exists user;
+drop table if exists video;
+drop table if exists item;
+drop procedure if exists isOwned;
+
+
+create table user
+(
+	id varchar(20) not null primary key,
+	score int not null default 0,
+	salt varchar(20) not null,
+	hashsalt varchar(40) not null
+);
+
+
+create table video
+(
+	id varchar(11) not null primary key,
+	name varchar(30) not null
+);
+
+
+create table item
+(
+	name varchar(30) not null primary key,
+	slot varchar(20) not null,
+	cost int not null default 100
+);
+
+
+create table uservideo
+(
+	user varchar(20) not null,
+	video varchar(11) not null,
+	progress varchar(1000),
+	finished boolean not null default false,
+	foreign key (user) references user(id),
+	foreign key (video) references video(id),
+	primary key (user, video)
+);
+
+
+create table useritem
+(
+	user varchar(20) not null,
+	item varchar(30) not null,
+	primary key (user, item)
+);
+
+
+create table outfit
+(
+	user varchar(20) not null,
+	name varchar(20) not null,
+	body varchar(20) not null,
+	eyes varchar(20),
+	torso varchar(20),
+	face varchar(20),
+	eyewear varchar(20),
+	hair varchar(20),
+	hat varchar(20),
+	primary key (name, user)/*,
+	foreign key (user) references user(id),
+	foreign key (user, body) references useritem(user, item),
+	foreign key (user, eyes) references useritem(user, item),
+	foreign key (user, torso) references useritem(user, item),
+	foreign key (user, face) references useritem(user, item),
+	foreign key (user, eyewear) references useritem(user, item),
+	foreign key (user, hair) references useritem(user, item),
+	foreign key (user, hat) references useritem(user, item)*/
+);
+
+
+insert into user (id, score, salt, hashsalt)
+values
+	('undefined', 0, 'IjxOFCW5sZQThv3BaNZO', '34914b6a7118bd6944bda5c2f564c51d4644dc39'),
+	('a', 500, 'AxPooEKtmpfGvqTuXkw3', '478ec67ab5e2645c4363deb34d55aa1a572806f0'),
+	('bob', 10, 'AVBcGoiguhsc4jocMoIS', '4ea7ce10964a478266fef89e5eed33af4219b3e3'), 
+	('sally', 432, 'OhpKqXG4Ke7iIi1sZOV7', '39574ca4da98c2071a8f850437437b18aa0900ca'), 
+	('roger', 70, 'Izo1Je7YOu5hG5XS595C', 'f9674594d192adb0383a1a7300ecc5497c707dd3');
+
+
+insert into video (id, name)
+values 
+	('dQw4w9WgXcQ', 'Never Gonna Give You Up'),
+	('s8m5sxlh370', 'Roger Rabbit'),
+	('WYjTWJYsbdI', 'A Mouse Doing a Thing'),
+	('Y1xs_xPb46M', 'Another Thing'),
+	('tyubEwigfUY', 'Blocking Out the Haters'),
+	('jaji1zuVAQU', 'Lower Back Stretches'),
+	('5EvVD-b_b_o', 'Neck Stretches'),
+	('zcriNQ9D3dQ', 'Shoulder Stretches'),
+	('POqVlGFfbfk', 'Elbow Stretches'),
+	('TlHWnNiYjuw', 'Ankle Stretches'),
+	('iL59TI2gihI', 'Wrist Stretches'),
+	('HhF5r8IiX_k', 'Hip Stretches'),
+	('syBi8gw4dsA', 'Osteoarthritis Exercises'),
+	('gidN1N8nSRU', 'Pelvic Floor Exercises'),
+	('4AMYr4zfD1Y', 'Anterior Knee Exercises');
+
+
+insert into item (name, slot)
+values
+	('Body 1', 'Body'), ('Body 2', 'Body'),
+	('Eyes 1', 'Eyes'),('Eyes 2', 'Eyes'), ('Eyes 3', 'Eyes'), ('Eyes 4', 'Eyes'),
+	('Armour', 'Torso'), ('Denim', 'Torso'), ('Hooded Robe', 'Torso'), ('Mage Robe', 'Torso'), ('Royal Robe', 'Torso'), ('Tidy', 'Torso'), ('Warrior', 'Torso'),
+	('Beard', 'Face'), ('Full Beard', 'Face'), ('Moustache', 'Face'), ('Old Man Moustache', 'Face'),
+	('Eye Patch', 'Eyewear'), ('Glasses', 'Eyewear'), ('Monocle', 'Eyewear'),
+	('Hair 1', 'Hair'), ('Hair 2', 'Hair'),
+	('Bandana', 'Hat'), ('Bows', 'Hat'), ('Crown', 'Hat'), ('Flower', 'Hat'), ('Pirate Hat', 'Hat'), ('Warrior Crown', 'Hat');
+
+
+insert into uservideo (user, video)
+values
+	('a', 'dQw4w9WgXcQ'), ('a', 's8m5sxlh370'), ('a', 'Y1xs_xPb46M'), ('a', 'WyjTWJYsbdI'),
+	('a', 'tyubEwigfUY'), ('a', 'jaji1zuVAQU'),
+	('bob', 'dQw4w9WgXcQ'), ('bob', 's8m5sxlh370'), ('bob', 'Y1xs_xPb46M'),
+	('roger', 'WYjTWJYsbdI'), ('roger', 'Y1xs_xPb46M'),
+	('sally', '4AMYr4zfD1Y'), ('sally', 'syBi8gw4dsA'), ('sally', 'TlHWnNiYjuw'), ('sally', 'HhF5r8IiX_k'), ('sally', 'jaji1zuVAQU');
+
+
+insert into useritem (user, item)
+values
+	('sally', 'Body 1'), 
+	('sally', 'Body 2'),
+	('sally', 'Eyes 1'), 
+	('sally', 'Eyes 2'), 
+	-- ('sally', 'Eyes 3'), 
+	-- ('sally', 'Eyes 4'),
+	('sally', 'Armour'), 
+	('sally', 'Denim'), 
+	-- ('sally', 'Hooded Robe'), 
+	-- ('sally', 'Mage Robe'), 
+	-- ('sally', 'Royal Robe'), 
+	('sally', 'Tidy'), 
+	('sally', 'Warrior'),
+	-- ('sally', 'Beard'), 
+	-- ('sally', 'Full Beard'), 
+	-- ('sally', 'Moustache'), 
+	-- ('sally', 'Old Man Moustache'),
+	-- ('sally', 'Eye Patch'), 
+	('sally', 'Glasses'), 
+	-- ('sally', 'Monocle'),
+	-- ('sally', 'Hair 1'),
+	('sally', 'Hair 2'),
+	-- ('sally', 'Bandana'), 
+	-- ('sally', 'Bows'), 
+	('sally', 'Crown'), 
+	('sally', 'Flower'), 
+	('sally', 'Pirate Hat'), 
+	('sally', 'Warrior Crown'),
+
+	('a', 'Body 1'), 
+	('a', 'Body 2'),
+	
+	('bob', 'Body 1'), 
+	('bob', 'Body 2'),
+	
+	('roger', 'Body 1'), 
+	('roger', 'Body 2');
+
+	
+insert into outfit
+values
+	('sally', 'Outfit 1', 'Body 1', null, 'Armour', null, null, 'Hair 2', 'Flower'),
+	('sally', 'Outfit 2', 'Body 2', 'Eyes 2', 'Warrior', null, null, 'Hair 2', 'Warrior Crown'),
+	('a', 'Outfit 1', 'Body 2', null, null, null, null, null, null),
+	('bob', 'Outfit 1', 'Body 2', null, null, null, null, null, null);
+
+	
+delimiter $$
+create trigger check_score before update on user
+	for each row 
+		begin  
+			if new.score < 0 then
+				signal sqlstate '45000'   
+				set message_text = 'Score can not be < 0';
+			end if; 
+		end; 
+$$
+
+create procedure isOwned(in userName varchar(20), in itemName varchar(20), in slotName varchar(20))
+	begin
+		if itemName not in (select name from item where slot=slotName) then
+			set @message = (select concat(itemName, ' does not exist in slot ', slotName, '.'));
+			signal sqlstate '45000'
+			set message_text = @message;
+		elseif itemName not in (select item from useritem where user=userName) then
+			set @message = (select concat('User ', userName, ' does not own ', itemName, '.'));
+			signal sqlstate '45000'
+			set message_text = @message;
+		end if;
+	end
+$$
+
+create trigger check_outfit_in before insert on outfit
+	for each row
+		begin
+			if new.body is not null then
+				call isOwned(new.user, new.body, 'Body');
+			end if;
+			if new.eyes is not null then
+				call isOwned(new.user, new.eyes, 'Eyes');
+			end if;
+			if new.torso is not null then
+				call isOwned(new.user, new.torso, 'Torso');
+			end if;
+			if new.face is not null then
+				call isOwned(new.user, new.face, 'Face');
+			end if;
+			if new.eyewear is not null then
+				call isOwned(new.user, new.eyewear, 'Eyewear');
+			end if;
+			if new.hair is not null then
+				call isOwned(new.user, new.hair, 'Hair');
+			end if;
+			if new.hat is not null then
+				call isOwned(new.user, new.hat, 'Hat');
+			end if;
+		end;					   
+$$
+
+create trigger check_outfit_up before update on outfit
+	for each row
+		begin
+			if new.body is not null then
+				call isOwned(new.user, new.body, 'Body');
+			end if;
+			if new.eyes is not null then
+				call isOwned(new.user, new.eyes, 'Eyes');
+			end if;
+			if new.torso is not null then
+				call isOwned(new.user, new.torso, 'Torso');
+			end if;
+			if new.face is not null then
+				call isOwned(new.user, new.face, 'Face');
+			end if;
+			if new.eyewear is not null then
+				call isOwned(new.user, new.eyewear, 'Eyewear');
+			end if;
+			if new.hair is not null then
+				call isOwned(new.user, new.hair, 'Hair');
+			end if;
+			if new.hat is not null then
+				call isOwned(new.user, new.hat, 'Hat');
+			end if;
+		end;					   
+$$
+
+delimiter ;

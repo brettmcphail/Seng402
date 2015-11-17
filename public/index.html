@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="styles.css">
-
     <script src="bower_components/angular/angular.min.js"></script>
     <script src="bower_components/angular-route/angular-route.min.js"></script>
     <script src="bower_components/angular-strap/dist/angular-strap.min.js"></script>
@@ -22,11 +21,11 @@
 
     <div style="background-color: white; padding-top: 20px; padding-bottom: 20px">
     <div ng-if="!user && pageReady" ng-cloak>
-        <!--<p>LOGIN PLZ</p>-->
+        <p>Enter your username and password</p>
         <form novalidate class="simple-form">
             <input type="text" ng-model="username" placeholder="Username"/>
             <input type="password" ng-model="password" placeholder="Password"/>
-            <button ng-click="login(username, password)">Log In</button>
+            <a class="button btn" ng-click="login(username, password)">Log In</a>
         </form>
         <br>
         <ul class="list-unstyled" ng-repeat="error in loginErrors" ng-cloak>

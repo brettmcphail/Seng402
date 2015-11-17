@@ -86,7 +86,7 @@ app.controller('listCtrl', ['$scope', '$sce', '$http', '$window', '$timeout', '$
             $location.path('/videos');
         }, function(res) {
             $scope.loginErrors = [];
-            $scope.loginErrors.push('Incorrect username or password');
+            $scope.loginErrors.push('Invalid username/password combination');
             $scope.showError = true;
             $timeout(function() {
                 $scope.showError = false;
